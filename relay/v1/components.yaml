@@ -1,0 +1,20 @@
+openapi: 3.1.0
+info:
+  title: LoRaWAN Relay Components
+  version: 1.0.0
+  contact:
+    name: LoRa Alliance
+    url: https://lora-alliance.org
+    email: admin@lora-alliance.org # TODO: Do we have a better email address for this?
+  license:
+    name: "" # TODO: Decide on permissive license.
+    # url: ""
+paths: {}
+components:
+  schemas:
+    RelayVersion:
+      type: string
+      description: Version of the LoRaWAN Relay Specification
+      enum:
+        - "1.0"
+        - "1.0.1"

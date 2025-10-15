@@ -1,0 +1,56 @@
+openapi: 3.1.0
+info:
+  title: LoRaWAN End-device Capabilities API Operations
+  version: 1.0.0
+  contact:
+    name: LoRa Alliance
+    url: https://lora-alliance.org
+    email: admin@lora-alliance.org # TODO: Do we have a better email address for this?
+  license:
+    name: "" # TODO: Decide on permissive license.
+    # url: ""
+externalDocs:
+  description: LoRa Alliance
+  url: "https://www.lora-alliance.org"
+servers:
+  - url: /v1
+    variables: {}
+tags:
+  - name: profile
+    description: LoRaWAN Device Profiles
+paths:
+  "/profile/{vendorId}/{profileId}":
+    get:
+      tags:
+        - profile
+      summary: Get LoRaWAN End-device profile based on its VendorID and ProfileID
+      description: Returns a LoRaWAN Device Profile
+      operationId: getProfileById
+      parameters:
+        - name: vendorId
+          in: path
+          description: VendorID issued by the LoRa Alliance
+          required: true
+          schema:
+            type: integer
+            format: uint16
+        - name: profileId
+          in: path
+          description: Vendor issued ProfileID
+          required: true
+          schema:
+            type: integer
+            format: uint16
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "components.yaml#/components/schemas/DeviceProfile"
+        "400":
+          description: Invalid VendorID or ProfileID supplied
+          content: {}
+        "404":
+          description: Profile not found
+          content: {}

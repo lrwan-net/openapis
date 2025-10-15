@@ -1,0 +1,55 @@
+openapi: 3.1.0
+info:
+  title: LoRaWAN Link Layer Components
+  version: 1.0.0
+  contact:
+    name: LoRa Alliance
+    url: https://lora-alliance.org
+    email: admin@lora-alliance.org # TODO: Do we have a better email address for this?
+  license:
+    name: "" # TODO: Decide on permissive license.
+    # url: ""
+paths: {}
+components:
+  schemas:
+    LinkLayerVersion:
+      type: string
+      description: Version of the LoRaWAN Link Layer Specification
+      enum:
+        - "1.0"
+        - "1.0.1"
+        - "1.0.2"
+        - "1.0.3"
+        - "1.0.4"
+        - "1.1"
+        - "1.2.0"
+    DataRateIndex:
+      type: integer
+      format: uint8
+      minimum: 0
+      maximum: 15
+    DataRateIndexOffset:
+      type: integer
+      format: uint8
+      minimum: 0
+      maximum: 7
+    Frequency:
+      description: Frequency in Hz
+      type: integer
+      format: uint64
+      minimum: 100000000
+    ReceiveDelay1:
+      description: First receive delay in seconds
+      type: integer
+      format: uint8
+      minimum: 1
+      maximum: 15
+    PingSlotPeriodicity:
+      description: Ping slot period in seconds
+      type: integer
+      enum: [32, 64, 128, 256, 512, 1024, 2048, 4096]
+    MaxDutyCycle:
+      type: integer
+      format: uint8
+      minimum: 0
+      maximum: 15

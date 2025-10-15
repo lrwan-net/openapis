@@ -1,0 +1,185 @@
+openapi: 3.1.0
+info:
+  title: LoRaWAN End-device Capabilities API Components
+  version: 1.0.0
+  contact:
+    name: LoRa Alliance
+    url: https://lora-alliance.org
+    email: admin@lora-alliance.org # TODO: Do we have a better email address for this?
+  license:
+    name: "" # TODO: Decide on permissive license.
+    # url: ""
+paths: {}
+components:
+  schemas:
+    DeviceProfile:
+      type: object
+      properties:
+        SchemaVersion:
+          description: Version of the Device Profile schema.
+          type: integer
+          minimum: 1
+        VendorID:
+          description: Vendor identifier, assigned by the LoRa Alliance.
+          type: integer
+          format: uint16
+        VendorProfileID:
+          description: Vendor profile identifier, assigned by the vendor.
+          type: integer
+          format: uint16
+        LinkLayerVersion:
+          $ref: "../../link-layer/v1/components.yaml#/components/schemas/LinkLayerVersion"
+        RPVersion:
+          $ref: "../../regional-parameters/v1/components.yaml#/components/schemas/RPVersion"
+        RPBand:
+          $ref: "../../regional-parameters/v1/components.yaml#/components/schemas/RPBand"
+        Supports32bitFCnt:
+          description: End-device uses 32-bit FCnt. Mandatory for end-devices prior to LoRaWAN Link Layer version 1.0.4.
+          type: boolean
+          default: true
+        SupportsJoin:
+          description: End-device supports Join (OTAA) or not (ABP).
+          type: boolean
+          default: true
+        DLSettings:
+          type: object
+          properties:
+            ReceiveDelay1:
+              description: Delay of the first receive window (in seconds). Optional for ABP.
+              allOf:
+                - $ref: "../../link-layer/v1/components.yaml#/components/schemas/ReceiveDelay1"
+            RX1DataRateIndexOffset:
+              description: Data rate index offset of the first receive window for the Join-Accept (OTAA) or Class A downlink (ABP). Optional for OTAA and ABP.
+              allOf:
+                - $ref: "../../link-layer/v1/components.yaml#/components/schemas/DataRateIndexOffset"
+            JoinAcceptDelay1:
+              description: Join-Accept delay 1 (in seconds). Optional for OTAA.
+              allOf:
+                - $ref: "../../link-layer/v1/components.yaml#/components/schemas/ReceiveDelay1"
+            RX2DataRateIndex:
+              description: Data rate index of the second receive window for the Join-Accept (OTAA) or Class A downlink (ABP). Optional for OTAA and ABP.
+              allOf:
+                - $ref: "../../link-layer/v1/components.yaml#/components/schemas/DataRateIndex"
+            RX2Frequency:
+              description: Frequency (in Hz) of the second receive window for the Join-Accept (OTAA) or Class A downlink (ABP). Optional for OTAA and ABP.
+              allOf:
+                - $ref: "../../link-layer/v1/components.yaml#/components/schemas/Frequency"
+        FactoryPresetFrequencies:
+          description: List of factory preset frequencies (in Hz). Optional for ABP.
+          type: array
+          items:
+            $ref: "../../link-layer/v1/components.yaml#/components/schemas/Frequency"
+        TXPowerParameters:
+          type: object
+          properties:
+            MinEIRP:
+              description: Minimum EIRP supported by the end-device (in dBm).
+              type: number
+            MaxEIRP:
+              description: Maximum EIRP supported by the end-device (in dBm).
+              type: number
+            AntennaGain:
+              description: Antenna gain (in dBi).
+              type: number
+        ClassB:
+          type: object
+          description: Class B capabilities of the end-device.
+          properties:
+            SupportsClassB:
+              description: End-device supports Class B.
+              type: boolean
+            ClassBTimeout:
+              description: Maximum delay (in seconds) for the end-device to answer a MAC request or a confirmed downlink frame. Used as CLASS_B_RESP_TIMEOUT in [LW104]. Optional for Class B.
+              type: integer
+            PingSlotPeriodicity:
+              description: Ping slot period (seconds). Optional for Class B.
+              allOf:
+                - $ref: "../../link-layer/v1/components.yaml#/components/schemas/PingSlotPeriodicity"
+            PingSlotDataRateIndex:
+              description: Ping slot data rate index. Optional for Class B.
+              allOf:
+                - $ref: "../../link-layer/v1/components.yaml#/components/schemas/DataRateIndex"
+            PingSlotFrequency:
+              description: Ping slot frequency (in Hz). Optional for Class B.
+              allOf:
+                - $ref: "../../link-layer/v1/components.yaml#/components/schemas/Frequency"
+          required:
+            - SupportsClassB
+        ClassC:
+          type: object
+          description: Class C capabilities of the end-device.
+          properties:
+            SupportsClassC:
+              description: End-device supports Class C.
+              type: boolean
+            ClassCAlwaysEnabled:
+              type: boolean
+            ClassCTimeout:
+              description: Maximum delay (in seconds) for the end-device to answer a MAC request or a confirmed downlink frame. Used as CLASS_C_RESP_TIMEOUT in [LW104]. Optional for Class C.
+              type: integer
+          required:
+            - SupportsClassC
+        CommercialName:
+          description: Commercial name of the end-device.
+          type: string
+        SupportsCFListType1FixedChannels:
+          description: End-device supports CFListType 1 fixed channels. Optional when using a Dynamic Channel Plan RPBand and RPVersion RP002-1.0.4 or higher.
+          type: boolean
+        Relay:
+          type: object
+          description: Relay capabilities of the end-device.
+          properties:
+            Version:
+              $ref: "../../relay/v1/components.yaml#/components/schemas/RelayVersion"
+            IsRelayDevice:
+              description: Indicates if the device is capable of acting as a relay.
+              type: boolean
+            IsEndDeviceUnderRelay:
+              description: Indicates if the device is an end-device under a relay.
+              type: boolean
+            IsRelayOnByDefault:
+              description: Indicates if the device is a relay by default. Optional if IsRelayDevice is true.
+              type: boolean
+        UplinkDwellTime:
+          description: Uplink dwell time enabled on boot. Optional for OTAA and ABP.
+          type: boolean
+        DownlinkDwellTime:
+          description: Downlink dwell time enabled on boot. Optional for OTAA and ABP.
+          type: boolean
+        DevNonceIsCounter:
+          description: Indicates if the DevNonce is a counter (TR001). This is optional for end-devices prior to LoRaWAN Link Layer version 1.0.4.
+          type: boolean
+          default: true
+        SupportedDataRateIndices:
+          description: List of supported data rate indices.
+          type: array
+          items:
+            $ref: "../../link-layer/v1/components.yaml#/components/schemas/DataRateIndex"
+        ADRACKLimit:
+          description: ADR ACK limit. Optional for OTAA and ABP.
+          type: integer
+        ADRACKDelay:
+          description: ADR ACK delay. Optional for OTAA and ABP.
+          type: integer
+        MaxNbTrans:
+          description: Maximum number of retransmissions per data rate index (if less than the maximum of 15). Optional for OTAA and ABP.
+          propertyNames:
+            $ref: "../../link-layer/v1/components.yaml#/components/schemas/DataRateIndex"
+          additionalProperties:
+            type: integer
+            minimum: 1
+            maximum: 15
+          example:
+            "0": 3
+            "1": 6
+      required:
+        - SchemaVersion
+        - VendorID
+        - VendorProfileID
+        - LinkLayerVersion
+        - RPVersion
+        - RPBand
+        - SupportsJoin
+        - ClassB
+        - ClassC
+        - TXPowerParameters

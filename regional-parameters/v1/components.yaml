@@ -1,0 +1,46 @@
+openapi: 3.1.0
+info:
+  title: LoRaWAN Regional Parameters Components
+  version: 1.0.0
+  contact:
+    name: LoRa Alliance
+    url: https://lora-alliance.org
+    email: admin@lora-alliance.org # TODO: Do we have a better email address for this?
+  license:
+    name: "" # TODO: Decide on permissive license.
+    # url: ""
+paths: {}
+components:
+  schemas:
+    RPVersion:
+      description: Version of the LoRaWAN Regional Parameters Specification
+      type: string
+      enum:
+        - "TS001-1.0.0"
+        - "TS001-1.0.1"
+        - "RP001-1.0.0"
+        - "RP001-1.0.2"
+        - "RP001-1.0.3"
+        - "RP001-1.1.0"
+        - "RP002-1.0.0"
+        - "RP002-1.0.1"
+        - "RP002-1.0.2"
+        - "RP002-1.0.3"
+        - "RP002-1.0.4"
+        - "RP002-1.0.5"
+    RPBand:
+      description: LoRaWAN Regional Parameters Band (Common Name)
+      enum:
+        - "EU868"
+        - "US915"
+        - "CN779"
+        - "EU433"
+        - "AU915"
+        - "CN470"
+        - "AS923"
+        - "AS923-2"
+        - "AS923-3"
+        - "AS923-4"
+        - "KR920"
+        - "IN865"
+        - "RU864"
