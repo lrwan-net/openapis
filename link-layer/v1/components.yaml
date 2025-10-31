@@ -5,10 +5,10 @@ info:
   contact:
     name: LoRa Alliance
     url: https://lora-alliance.org
-    email: admin@lora-alliance.org # TODO: Do we have a better email address for this?
+    email: admin@lora-alliance.org
   license:
-    name: "" # TODO: Decide on permissive license.
-    # url: ""
+    name: CC-BY-ND-4.0
+    url: https://creativecommons.org/licenses/by-nd/4.0/
 paths: {}
 components:
   schemas:
