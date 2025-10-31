@@ -16,7 +16,7 @@ tags:
   - name: profile
     description: LoRaWAN Device Profiles
 paths:
-  "/profile/{vendorId}/{profileId}":
+  "/end-devices/profiles/{vendorId}/{profileId}":
     get:
       tags:
         - profile
