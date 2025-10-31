@@ -1,11 +1,13 @@
 # OpenAPI
 
-This repository hosts openAPI files example, from [Swagger petstore](https://github.com/swagger-api/swagger-petstore)
-
-## Components
- - [Pet](pet/components.yaml)
- - [User](user/components.yaml)
- - [Petstore](petstore/components.yaml)
+This **test** repository hosts openAPI files for LoRaWAN end-devices capabilities API.
 
 ## Operations
- - [Petstore](petstore/operations.yaml)
+ - [End-Device capabilities](end-device-capabilities/v1/operations.yaml)
+
+## Components
+ - [End-Device capabilities](end-device-capabilities/v1/components.yaml)
+ - [Link Layer](link-layer/v1/components.yaml)
+ - [Regional Parameters](regional-parameters/v1/components.yaml)
+ - [Relay](relay/v1/components.yaml)
+
