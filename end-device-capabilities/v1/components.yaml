@@ -9,6 +9,8 @@ info:
   license:
     name: CC-BY-ND-4.0
     url: https://creativecommons.org/licenses/by-nd/4.0/
+externalDocs:
+  url: "https://lora-alliance.org" # TODO: Julien: Add proper URL
 paths: {}
 components:
   schemas:
@@ -81,6 +83,8 @@ components:
             AntennaGain:
               description: Antenna gain (in dBi).
               type: number
+          required:
+            - MaxEIRP
         ClassB:
           type: object
           description: Class B capabilities of the end-device.
@@ -91,6 +95,7 @@ components:
             ClassBTimeout:
               description: Maximum delay (in seconds) for the end-device to answer a MAC request or a confirmed downlink frame. Used as CLASS_B_RESP_TIMEOUT in [LW104]. Optional for Class B.
               type: integer
+              minimum: 3
             PingSlotPeriodicity:
               description: Ping slot period (seconds). Optional for Class B.
               allOf:
@@ -117,6 +122,7 @@ components:
             ClassCTimeout:
               description: Maximum delay (in seconds) for the end-device to answer a MAC request or a confirmed downlink frame. Used as CLASS_C_RESP_TIMEOUT in [LW104]. Optional for Class C.
               type: integer
+              minimum: 3
           required:
             - SupportsClassC
         CommercialName:
@@ -140,38 +146,48 @@ components:
             IsRelayOnByDefault:
               description: Indicates if the device is a relay by default. Optional if IsRelayDevice is true.
               type: boolean
-        UplinkDwellTime:
-          description: Uplink dwell time enabled on boot. Optional for OTAA and ABP.
-          type: boolean
-        DownlinkDwellTime:
-          description: Downlink dwell time enabled on boot. Optional for OTAA and ABP.
-          type: boolean
+        DwellTime:
+          type: object
+          description: Dwell time capabilities of the end-device.
+          properties:
+            Uplink:
+              description: Uplink dwell time enabled on boot. Optional for OTAA and ABP.
+              type: boolean
+            Downlink:
+              description: Downlink dwell time enabled on boot. Optional for OTAA and ABP.
+              type: boolean
         DevNonceIsCounter:
           description: Indicates if the DevNonce is a counter (TR001). This is optional for end-devices prior to LoRaWAN Link Layer version 1.0.4.
           type: boolean
           default: true
-        SupportedDataRateIndices:
-          description: List of supported data rate indices.
-          type: array
-          items:
-            $ref: "../../link-layer/v1/components.yaml#/components/schemas/DataRateIndex"
-        ADRACKLimit:
-          description: ADR ACK limit. Optional for OTAA and ABP.
-          type: integer
-        ADRACKDelay:
-          description: ADR ACK delay. Optional for OTAA and ABP.
-          type: integer
-        MaxNbTrans:
-          description: Maximum number of retransmissions per data rate index (if less than the maximum of 15). Optional for OTAA and ABP.
-          propertyNames:
-            $ref: "../../link-layer/v1/components.yaml#/components/schemas/DataRateIndex"
-          additionalProperties:
-            type: integer
-            minimum: 1
-            maximum: 15
-          example:
-            "0": 3
-            "1": 6
+        ADR:
+          type: object
+          description: Adaptive Data Rate (ADR) capabilities of the end-device.
+          properties:
+            SupportedDataRateIndices:
+              description: List of supported data rate indices.
+              type: array
+              items:
+                $ref: "../../link-layer/v1/components.yaml#/components/schemas/DataRateIndex"
+            ADRACKLimit:
+              description: ADR ACK limit. Optional for OTAA and ABP.
+              type: integer
+              minimum: 1
+            ADRACKDelay:
+              description: ADR ACK delay. Optional for OTAA and ABP.
+              type: integer
+              minimum: 1
+            MaxNbTrans:
+              description: Maximum number of retransmissions per data rate index (if less than the maximum of 15). Optional for OTAA and ABP.
+              propertyNames:
+                $ref: "../../link-layer/v1/components.yaml#/components/schemas/DataRateIndex"
+              additionalProperties:
+                type: integer
+                minimum: 1
+                maximum: 15
+              example:
+                "0": 3
+                "1": 6
       required:
         - SchemaVersion
         - VendorID
