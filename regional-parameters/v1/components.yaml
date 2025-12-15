@@ -9,6 +9,8 @@ info:
   license:
     name: CC-BY-ND-4.0
     url: https://creativecommons.org/licenses/by-nd/4.0/
+externalDocs:
+  url: "https://lora-alliance.org" # TODO: Julien: Add proper URL
 paths: {}
 components:
   schemas:

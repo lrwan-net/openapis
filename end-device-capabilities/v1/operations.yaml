@@ -9,44 +9,72 @@ info:
   license:
     name: CC-BY-ND-4.0
     url: https://creativecommons.org/licenses/by-nd/4.0/
+externalDocs:
+  url: "https://lora-alliance.org" # TODO: Julien: Add proper URL
 servers:
   - url: /v1
     variables: {}
 tags:
-  - name: profile
-    description: LoRaWAN Device Profiles
+  - name: capabilities
+    description: LoRaWAN End-Device Capabilities
 paths:
-  "/end-devices/profiles/{vendorId}/{profileId}":
+  "/end-devices/vendors/{VendorID}/profiles/{VendorProfileID}":
     get:
       tags:
-        - profile
-      summary: Get LoRaWAN End-device profile based on its VendorID and ProfileID
+        - capabilities
+      summary: Get LoRaWAN end-device profile based on its VendorID and VendorProfileID
       description: Returns a LoRaWAN Device Profile
-      operationId: getProfileById
+      operationId: GetEndDeviceProfileByID
       parameters:
-        - name: vendorId
+        - name: VendorID
           in: path
           description: VendorID issued by the LoRa Alliance
           required: true
           schema:
             type: integer
             format: uint16
-        - name: profileId
+        - name: VendorProfileID
           in: path
-          description: Vendor issued ProfileID
+          description: Vendor issued VendorProfileID
           required: true
           schema:
             type: integer
             format: uint16
+        - name: If-None-Match
+          in: header
+          description: Makes the request conditional. The server will return the resource only if the ETag doesn't match any of the provided values.
+          required: false
+          schema:
+            type: string
       responses:
         "200":
-          description: successful operation
+          description: Successful operation
+          headers:
+            ETag:
+              description: Entity tag for cache validation
+              schema:
+                type: string
+            Cache-Control:
+              description: Directives for caching mechanisms
+              schema:
+                type: string
           content:
             application/json:
               schema:
                 $ref: "components.yaml#/components/schemas/DeviceProfile"
+        "304":
+          description: Resource has not been modified since the version specified by the If-None-Match header
+          headers:
+            ETag:
+              description: Entity tag for cache validation
+              schema:
+                type: string
+            Cache-Control:
+              description: Directives for caching mechanisms
+              schema:
+                type: string
         "400":
-          description: Invalid VendorID or ProfileID supplied
+          description: Invalid VendorID or VendorProfileID supplied
           content: {}
         "404":
           description: Profile not found
