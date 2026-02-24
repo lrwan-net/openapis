@@ -1,0 +1,81 @@
+openapi: 3.1.0
+info:
+  title: LoRaWAN End-device Capabilities API Operations
+  version: 1.0.0
+  contact:
+    name: LoRa Alliance
+    url: https://lora-alliance.org
+    email: admin@lora-alliance.org
+  license:
+    name: CC-BY-ND-4.0
+    url: https://creativecommons.org/licenses/by-nd/4.0/
+externalDocs:
+  url: https://resources.lora-alliance.org/technical-specifications/ts014-1-0-0-end-device-capabilities-api
+servers:
+  - url: /v1
+    variables: {}
+tags:
+  - name: capabilities
+    description: LoRaWAN End-Device Capabilities
+paths:
+  "/end-devices/vendors/{VendorID}/profiles/{VendorProfileID}":
+    get:
+      tags:
+        - capabilities
+      summary: Get LoRaWAN end-device profile based on its VendorID and VendorProfileID
+      description: Returns a LoRaWAN Device Profile
+      operationId: GetEndDeviceProfileByID
+      parameters:
+        - name: VendorID
+          in: path
+          description: VendorID issued by the LoRa Alliance
+          required: true
+          schema:
+            type: integer
+            format: uint16
+        - name: VendorProfileID
+          in: path
+          description: Vendor issued VendorProfileID
+          required: true
+          schema:
+            type: integer
+            format: uint16
+        - name: If-None-Match
+          in: header
+          description: Makes the request conditional. The server will return the resource only if the ETag doesn't match any of the provided values.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+          headers:
+            ETag:
+              description: Entity tag for cache validation
+              schema:
+                type: string
+            Cache-Control:
+              description: Directives for caching mechanisms
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "components.yaml#/components/schemas/DeviceProfile"
+        "304":
+          description: Resource has not been modified since the version specified by the If-None-Match header
+          headers:
+            ETag:
+              description: Entity tag for cache validation
+              schema:
+                type: string
+            Cache-Control:
+              description: Directives for caching mechanisms
+              schema:
+                type: string
+        "400":
+          description: Invalid VendorID or VendorProfileID supplied
+          content: {}
+        "404":
+          description: Profile not found
+          content: {}

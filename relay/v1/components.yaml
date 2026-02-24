@@ -1,0 +1,22 @@
+openapi: 3.1.0
+info:
+  title: LoRaWAN Relay Components
+  version: 1.0.0
+  contact:
+    name: LoRa Alliance
+    url: https://lora-alliance.org
+    email: admin@lora-alliance.org
+  license:
+    name: CC-BY-ND-4.0
+    url: https://creativecommons.org/licenses/by-nd/4.0/
+externalDocs:
+  url: https://resources.lora-alliance.org/technical-specifications/ts014-1-0-0-end-device-capabilities-api
+paths: {}
+components:
+  schemas:
+    RelayVersion:
+      type: string
+      description: Version of the LoRaWAN Relay Specification
+      enum:
+        - "1.0"
+        - "1.0.1"
